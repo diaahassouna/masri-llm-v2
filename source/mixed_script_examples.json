@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "purpose": "Hand-curated Mode D (Arabic + Arabizi + English code-switch, mixed in one sentence) gold examples. Confirmed zero coverage anywhere in train.jsonl, train_augmented.jsonl, or eval_held_out.jsonl as of the Aug 2026 audit, despite mixed-script input being explicitly named as one of the project's hardest problems.",
+    "status": "seed set — hand-constructed, not generator output, since this category needs deliberate contrast pairs a generator won't naturally produce",
+    "category": "mixed_script"
+  },
+  "items": [
+    {
+      "id": "mix-01",
+      "input": "أنا عايز أsave الfile دلوقتي",
+      "input_type": "mixed_arabic_english",
+      "expected": "Ana Ⲵayez asave el file delwaɐti",
+      "tests_for": "Bound Egyptian morphology (أ- first-person prefix) fused directly onto an unadapted English stem ('save') — a third category beyond pure code-switch and Egyptianized loanword: the stem itself stays English-spelled, but Egyptian inflection attaches to it with no space. 'el file' stays a separate code-switch (technical term, no reason to Egyptianize). Validated in conversation with the project author.",
+      "notes": "Decision-framework gap: current loanword decision tree (Part 4a of the audit) only has two branches (integrated loanword vs. genuine code-switch). This item shows a third pattern — bound morphology on an otherwise-unadapted stem — that needs its own branch."
+    },
+    {
+      "id": "mix-02",
+      "input": "و انت طبعا هتكتب مجموعة اسكربتات عظيمة كل اسكربت و اسكربت يهبل واو",
+      "input_type": "mixed_arabic_english",
+      "expected": "We enta ṭabⲴan ha tekteb magmoⲴet escriptat Ⲵaẓeema koll escript we escript yehbel WOW",
+      "tests_for": "Arabic-style broken plural productively extended to an unlisted English loanword ('escript' -> 'escriptat'), matching the attested bonṭ/bonṭat, matϣ/matϣat pattern rather than requiring the exact stem to already be in the standardized list. Also tests construct-state '-et' ending on 'magmoⲴet' before the loanword, and a kept-caps unadapted exclamation ('WOW') used as a loanword, not the letter و.",
+      "notes": "Confirms rule 6 (P/B, V/F) and the loanword plural pattern generalize productively when morphological attachment evidence is present, per the audit's Part 4a decision tree (morphological attachment = integration evidence)."
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "open-01",
+      "description": "Future clitic 'ha-' (colloquial future marker, e.g. 'ha tekteb' / 'hatekteb') has no explicit spacing rule anywhere in the current spec, unlike the definite article 'el' (rule 2) which does. Both readings are currently defensible. Needs an explicit rule added to masri_tier2_system_prompt.md and tier2-rules.json spelling_rules, then propagated to build_dataset.py and validate_output.py.",
+      "status": "open — raised in conversation, not yet resolved by the project author",
+      "provisional_recommendation": "Treat consistently with 'el' (rule 2) and keep 'ha' as a separate word, pending the author's decision — but this is a proposal, not policy, per the mega-prompt's 'label speculative recommendations clearly' requirement."
+    }
+  ]
+}

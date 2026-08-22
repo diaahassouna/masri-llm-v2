@@ -1,0 +1,347 @@
+{
+  "how_to_use": [
+    "Run each item's `arabic_script` input AND its `franco` input (when present) through the model separately, using the masri_tier2_system_prompt.md as system prompt.",
+    "Compare output against `expected`. Score: EXACT (matches expected), ACCEPTABLE (matches an `accepted_variants` entry), or FAIL.",
+    "Track pass rate per `category`, not just overall — a category failing consistently tells you exactly which rule needs fine-tuning data, per the earlier plan.",
+    "`tests_for` explains the specific failure mode each item is designed to catch — useful for diagnosing *why* an item failed, not just that it did."
+  ],
+  "categories": [
+    "formatting",
+    "gemination",
+    "definite_article",
+    "glottal_stop",
+    "ayin",
+    "q_hamza_merger",
+    "p_b_v_f",
+    "short_vowels",
+    "loanword_english_kept",
+    "loanword_egyptianized",
+    "loanword_irregular_plural",
+    "tha_merger",
+    "homograph"
+  ],
+  "items": [
+    {
+      "id": "fmt-01",
+      "category": "formatting",
+      "arabic_script": "قال إنه مش جاي.",
+      "franco": null,
+      "expected": "Aal enno miϣ gaii.",
+      "tests_for": "Combines three rules at once: sentence-initial capitalization (A), word-initial colloquial-q silence (aal not Ɐal), and memorized word-final gemination (gaii not gay)."
+    },
+    {
+      "id": "fmt-02",
+      "category": "formatting",
+      "arabic_script": "النهارده الجو حلو.",
+      "franco": null,
+      "expected": "El naharda el gaw Ϩelw.",
+      "tests_for": "Two 'el' occurrences in one sentence, both must stay space-separated (not merged/hyphenated), plus sentence-initial capitalization on the first."
+    },
+    {
+      "id": "fmt-03",
+      "category": "formatting",
+      "arabic_script": "القمر جميل الليلة.",
+      "franco": null,
+      "expected": "El amarr gameel el lééla.",
+      "tests_for": "Stacks the hardest combination: 'el' stays separate AND spaced, the word-initial glottal from colloquial ق is fully dropped (not Ɐamar), and sentence-initial capitalization all in one sentence. Also fixed: الليلة ('the night') is 'el lééla', not 'el layla' (which is reserved for the name Layla)."
+    },
+    {
+      "id": "gem-01",
+      "category": "gemination",
+      "arabic_script": "حبيت الفيلم ده جدا.",
+      "franco": null,
+      "expected": "Ϩabeit el film da geddan.",
+      "tests_for": "جدا has no shadda in unvocalized script — gemination must be recovered from knowing the word, not from a visible mark."
+    },
+    {
+      "id": "gem-02",
+      "category": "gemination",
+      "arabic_script": "بحبك أوي.",
+      "franco": "bahebbak awi",
+      "expected": "Baϩebbak awi.",
+      "tests_for": "Franco already shows the double b — model should NOT need lexical recovery here, just direct mapping plus sentence-initial capitalization. A model that under- or over-geminates on easy cases signals a shaky base rule, not just a hard-case gap."
+    },
+    {
+      "id": "gem-03",
+      "category": "gemination",
+      "arabic_script": "الجو حر النهارده.",
+      "franco": "el gaw har elnaharda",
+      "expected": "El gaw Ϩarr el naharda.",
+      "tests_for": "حر (hot) is geminated (Ϩarr) despite no shadda shown — same recovery problem as gem-01. Also checks 'el naharda' spacing (input Franco deliberately merges it wrong, to see if the model corrects rather than copies)."
+    },
+    {
+      "id": "def-01",
+      "category": "definite_article",
+      "arabic_script": "الشمس حلوة النهارده.",
+      "franco": null,
+      "expected": "El ϣams Ϩelwa el naharda.",
+      "tests_for": "ش is a sun letter (would assimilate in real pronunciation) — must still be spelled 'el', separate and unmerged, not 'esh'/'eϣ' or 'elnaharda'."
+    },
+    {
+      "id": "def-02",
+      "category": "definite_article",
+      "arabic_script": "الراجل ده بيشتغل فين؟",
+      "franco": "el ragel da beyeshtaghal fein",
+      "expected": "El ragel da beyeϣtaɣal fein?",
+      "tests_for": "ر is also a sun letter — same assimilation trap as def-01, different letter class."
+    },
+    {
+      "id": "def-03",
+      "category": "definite_article",
+      "arabic_script": "القمر جميل الليلة.",
+      "franco": null,
+      "expected": "El amarr gameel el lééla.",
+      "tests_for": "Duplicate of fmt-03's hard combination, kept here too since it's also the canonical definite-article edge case (colloquial ق word-initial right after 'el'). Also fixed: الليلة ('the night') is 'el lééla', not 'el layla' (which is reserved for the name Layla)."
+    },
+    {
+      "id": "glot-01",
+      "category": "glottal_stop",
+      "arabic_script": "أنا مسئول عن ده.",
+      "franco": null,
+      "expected": "Ana masⱯool Ⲵan da.",
+      "tests_for": "Word-initial hamza (أنا) is silent/unwritten; mid-word hamza (مسئول) is written as Ɐ — same letter (ء), opposite treatment by position."
+    },
+    {
+      "id": "glot-02",
+      "category": "glottal_stop",
+      "arabic_script": "أروح فين بكرة؟",
+      "franco": "arouh fein bokra",
+      "expected": "ArouϨ fein bokra?",
+      "tests_for": "Initial أ silent — a model that renders 'Ɐarouϩ' has wrongly applied the glottal rule to a word-initial position."
+    },
+    {
+      "id": "glot-03",
+      "category": "glottal_stop",
+      "arabic_script": "مين قالك كده؟",
+      "franco": "meen 2allek keda",
+      "expected": "Meen aallek keda?",
+      "accepted_variants": [
+        "Meen aal lek keda?"
+      ],
+      "tests_for": "Colloquial ق mid-word is realized as vowel lengthening ('aa'), not the Ɐ symbol used for hamza elsewhere — a subtler distinction than a single blanket 'ق-to-Ɐ' rule would predict."
+    },
+    {
+      "id": "ayin-01",
+      "category": "ayin",
+      "arabic_script": "عايز أروح بعدين.",
+      "franco": "3ayez arouh ba3dein",
+      "expected": "Ⲵayez arouϨ baⲴdeen.",
+      "tests_for": "Two ع occurrences in one sentence, both word-initial and mid-word — checks consistency, not just single-instance recognition."
+    },
+    {
+      "id": "ayin-02",
+      "category": "ayin",
+      "arabic_script": "عندي حقائق كتير عشان أثبت كلامي.",
+      "franco": "3andy 7a2ai2 keteer 3ashan asbat kalamy",
+      "expected": "Ⲵandy ϨaⱯaiⱯ keteer Ⲵaϣan asbet kalamy.",
+      "accepted_variants": [
+        "Ⲵandy ϨaqaⱯiq keteer Ⲵaϣan aθbet kalamy. (formal register)"
+      ],
+      "tests_for": "Vernacular حقائق is ϨaⱯaiⱯ (the hamza absorbs into the vowel glide, unmarked), while formal register keeps q for both ق's and marks the hamza separately (ϨaqaⱯiq) — a register-dependent distinction, not one fixed spelling."
+    },
+    {
+      "id": "ayin-03",
+      "category": "ayin",
+      "arabic_script": "الساعة دي غالية أوي.",
+      "franco": null,
+      "expected": "El saⲴa dee ɣalya awi.",
+      "tests_for": "ساعة has ع mid-word before a tied-marbuta ة — checks the rule still fires in a less common letter sequence, and distinguishes ع from غ (different letters, easy to confuse if the model is pattern-matching rather than reading correctly)."
+    },
+    {
+      "id": "qh-01",
+      "category": "q_hamza_merger",
+      "arabic_script": "قال إنه مش جاي.",
+      "franco": null,
+      "expected": "Aal enno miϣ gaii.",
+      "tests_for": "Everyday colloquial ق (قال, 'said') is silent word-initially (not Ɐal) — merger to Ɐ is NOT the default for word-initial position, only mid-word. Also tests the memorized word-final gemination on جاي (gaii, not gay)."
+    },
+    {
+      "id": "qh-02",
+      "category": "q_hamza_merger",
+      "arabic_script": "القرآن الكريم",
+      "franco": null,
+      "expected": "El Qur'an el kareem",
+      "tests_for": "Formal/religious register — ق stays q, does NOT merge. Tests that the model can tell register apart, not apply q_hamza_merger blindly to every ق."
+    },
+    {
+      "id": "qh-03",
+      "category": "q_hamza_merger",
+      "arabic_script": "قهوتك عاملة إزاي؟",
+      "franco": "ahwetak 3amla ezay",
+      "expected": "Ahwetak Ⲵamla ezay?",
+      "tests_for": "قهوتك (your coffee) has a colloquial-only pronunciation with the ق dropped entirely (not even a glottal stop) — 'ahwa' is on the standardized word list, so this checks memorized-word recall over rule application."
+    },
+    {
+      "id": "pbvf-01",
+      "category": "p_b_v_f",
+      "arabic_script": "اشتريت بيانو جديد.",
+      "franco": "eshtareit biano gedid",
+      "expected": "Eϣtareit piano gedid.",
+      "tests_for": "Native pronunciation IS 'biano' (with b) — the Franco input correctly reflects real speech. Writing 'piano' is a deliberate visual/etymological override, not a claim about the 'true' phonetic pronunciation. This item specifically catches a model that reasons 'the input says b, so keep b.'"
+    },
+    {
+      "id": "pbvf-02",
+      "category": "p_b_v_f",
+      "arabic_script": "عندي فيديو حلو هوريهولك.",
+      "franco": null,
+      "expected": "Ⲵandy video Ϩelw hawarrehoolak.",
+      "accepted_variants": [
+        "Ⲵandy video Ϩelw ha awareehoolak."
+      ],
+      "tests_for": "فيديو already uses ف not another letter, checking v/f stay distinct — but the real target here is the compound colloquial verb form (ha+awareek+hoolak, 'I'll show it to you'), which needs correct morphological parsing, not word-by-word substitution."
+    },
+    {
+      "id": "pbvf-03",
+      "category": "p_b_v_f",
+      "arabic_script": "البلاستيك ده غالي.",
+      "franco": null,
+      "expected": "El plastic da ɣaly.",
+      "tests_for": "بلاستيك is written with ب (no پ letter used at all in the Arabic spelling) — same trap as pbvf-01, different word, confirming it's not a one-off memorized exception."
+    },
+    {
+      "id": "vow-01",
+      "category": "short_vowels",
+      "arabic_script": "معلش، بكرة نكمل.",
+      "franco": "ma3lesh bokra nekammel",
+      "expected": "MaⲴleϣ, bokra nekammel.",
+      "tests_for": "Casual register — short vowels omitted where natural, not forced in to match a formal transliteration."
+    },
+    {
+      "id": "vow-02",
+      "category": "short_vowels",
+      "arabic_script": "إزاي أوصف الإحساس ده؟",
+      "franco": null,
+      "expected": "Ezzay awṣef el eϨsas da?",
+      "tests_for": "Pedagogical/clarity case — vowels needed here to avoid an ambiguous consonant cluster reading."
+    },
+    {
+      "id": "lek-01",
+      "category": "loanword_english_kept",
+      "arabic_script": "عندي كمبيوتر جديد.",
+      "franco": "3andy computer gedid",
+      "expected": "Ⲵandy computer gedid.",
+      "tests_for": "English loanword kept close to English spelling by default (no Egyptianization applied)."
+    },
+    {
+      "id": "lek-02",
+      "category": "loanword_english_kept",
+      "arabic_script": "الفيلم ده أوفر أوي.",
+      "franco": "el film da over awi",
+      "expected": "El film da over awi.",
+      "tests_for": "'أوفر' (over) stays as English 'over', per the standardized loanword_examples list — checks memorized recall, not derivation."
+    },
+    {
+      "id": "lek-03",
+      "category": "loanword_english_kept",
+      "arabic_script": "روحت السينما إمبارح.",
+      "franco": "roht el cinema embareh",
+      "expected": "Roϩt el cinema embareϨ.",
+      "accepted_variants": [
+        "Roϩt el cima embareϨ."
+      ],
+      "tests_for": "Direct callback to the resolved cinema case — 'cinema' and 'cima' are both acceptable written forms, not one fixed spelling with pronunciation variants."
+    },
+    {
+      "id": "leg-01",
+      "category": "loanword_egyptianized",
+      "arabic_script": "الأسانسير عطلان.",
+      "franco": null,
+      "expected": "El asansēr Ⲵaṭlan.",
+      "accepted_variants": [
+        "El asansér Ⲵaṭlan."
+      ],
+      "tests_for": "French-origin (ascenseur) — Egyptianized spelling, not kept in French orthography. The é/ē accented-vowel choice is itself flexible (both acceptable), pronounced like ɣéér."
+    },
+    {
+      "id": "leg-02",
+      "category": "loanword_egyptianized",
+      "arabic_script": "الكلاكس بايظ في العربية.",
+      "franco": null,
+      "expected": "El kalaks bayeẓ fel Ⲵarabeyya.",
+      "tests_for": "French-origin car-part vocabulary (klaxon) needs an epenthetic vowel to break up the initial consonant cluster (kalaks, not klaks) — tests generalization of that specific loanword-phonology rule, not just Egyptianization broadly."
+    },
+    {
+      "id": "leg-03",
+      "category": "loanword_egyptianized",
+      "arabic_script": "الطرابيزة دي مكسورة.",
+      "franco": null,
+      "expected": "El ṭarabéza dee maksoora.",
+      "tests_for": "Greek-origin word (trapezi/table) — checks the Egyptianization rule generalizes across source languages, and reuses the é-sound convention from leg-01."
+    },
+    {
+      "id": "leg-04",
+      "category": "loanword_egyptianized",
+      "arabic_script": "الكوبري زحمة أوي دلوقتي.",
+      "franco": null,
+      "expected": "El kobry zaϨma awi delwaⱯty.",
+      "tests_for": "Turkish-origin word (köprü/bridge) — same generalization check as leg-03, different source language. Also carries a mid-word colloquial ق (دلوقتي) correctly rendered as Ɐ."
+    },
+    {
+      "id": "lip-01",
+      "category": "loanword_irregular_plural",
+      "arabic_script": "سجل مباريات كتير النهارده.",
+      "franco": null,
+      "expected": "Saggel matϣat keteer el naharda.",
+      "tests_for": "'match' → matϣ, irregular Arabic-style plural matϣat — must be recalled, not derived by regular pluralization. Also tests memorized word-final-adjacent gemination on سجل (saggel, not sagel)."
+    },
+    {
+      "id": "lip-02",
+      "category": "loanword_irregular_plural",
+      "arabic_script": "سجل جولين في الشوط الأول.",
+      "franco": null,
+      "expected": "Saggel gonein fel ϣouṭ el awwal.",
+      "tests_for": "'goal' → gon, but here in the DUAL form (gonein), not the plural (egoaan) — tests whether the model overgeneralizes the irregular plural into contexts where it doesn't apply."
+    },
+    {
+      "id": "lip-03",
+      "category": "loanword_irregular_plural",
+      "arabic_script": "الفريق سجل تلاته بونط النهارده.",
+      "franco": null,
+      "expected": "El fareeⱯ saggel talata bonṭ el naharda.",
+      "tests_for": "'point' → bonṭ — here staying SINGULAR after 'talata' (three) rather than taking the plural bonṭat, unlike the regular Arabic 3-10-takes-plural pattern. Confirms this is a memorized per-word/per-construction fact, not a rule to derive."
+    },
+    {
+      "id": "tha-01",
+      "category": "tha_merger",
+      "arabic_script": "شفت تعلب في الجنينة.",
+      "franco": null,
+      "expected": "ϣoft taⲴlabb fel ganeena.",
+      "tests_for": "ث (ثعلب, 'fox') merges to t in colloquial (not s), plus a memorized word-final gemination (taⲴlabb, not taⲴlab) — this word can't be handled by a single 'ث merges to X' rule."
+    },
+    {
+      "id": "tha-02",
+      "category": "tha_merger",
+      "arabic_script": "عندي تلات كتب.",
+      "franco": "3andy talat kotob",
+      "expected": "Ⲵandy talat kotob.",
+      "tests_for": "ثلاثة ('three') merges ث→t here too (talat), matching tha-01's direction — but note it's the elided 'talat' form (before a counted noun), NOT the standalone 'talata' seen with 'talata bonṭ' elsewhere in this set. That contrast is itself worth testing: the model shouldn't apply one fixed form of 'three' everywhere."
+    },
+    {
+      "id": "tha-03",
+      "category": "tha_merger",
+      "arabic_script": "الأرض دي مثمرة أوي.",
+      "franco": null,
+      "expected": "El arḍ dee mosmera awi.",
+      "accepted_variants": [
+        "El arḍ dee moθmera awi. (formal register)"
+      ],
+      "tests_for": "مثمر ('fruitful') merges ث→s (mosmer), the OPPOSITE direction from tha-01/tha-02 — this is the key test that ث-merger direction is memorized per word, not a single derivable sound-change rule."
+    },
+    {
+      "id": "homo-01",
+      "category": "homograph",
+      "arabic_script": "الليلة القمر جميل.",
+      "franco": null,
+      "expected": "El lééla el amarr gameel.",
+      "tests_for": "الليلة ('the night') must resolve to 'el lééla', not 'el layla' — same Latin letters as the name Layla would produce if the model defaults to the more common Franco spelling instead of recognizing which word is meant."
+    },
+    {
+      "id": "homo-02",
+      "category": "homograph",
+      "arabic_script": "أنا قريت رواية مجنون ليلى.",
+      "franco": "Ana areet rewayet Magnoon Layla",
+      "expected": "Ana aréét rewayet Magnoon Layla.",
+      "tests_for": "Direct contrast with homo-01 — here 'Layla' IS correct, since it's the proper name (ليلى) in the novel title, not the common noun 'night'. A model that always writes 'lééla' regardless of context fails this one; a model that always writes 'layla' fails homo-01. Both must be handled correctly by the same model to show real disambiguation, not a coin flip."
+    }
+  ]
+}

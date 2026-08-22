@@ -1,0 +1,197 @@
+{
+  "meta": {
+    "system": "El Abgadeyya El Maṣreyya (Masri Writing System)",
+    "tier": "Tier 2 — Academic / Cultural",
+    "author": "Diaa Hassouna",
+    "year": 2026,
+    "license": "CC BY 4.0",
+    "reference_dialect": "Urban Cairene Egyptian Arabic",
+    "description": "Academic tier uses Greek and Coptic letters plus diacritics for sounds Latin cannot represent precisely. Intended for linguistic study and formal documentation.",
+    "source_files": [
+      "Masri_Alphabet_Reference.pdf",
+      "Masri_Writing_System_Framework_v1_0.pdf"
+    ]
+  },
+
+  "alphabet": [
+    { "no": 1,  "letter_upper": "A", "letter_lower": "a", "arabic": "ا", "name": "Alef",  "ipa": "/ʔ/, /aː/", "unicode_upper": "U+0041", "unicode_lower": "U+0061", "origin": "ASCII", "notes": "Open vowel; /aː/ as in 'father'" },
+    { "no": 2,  "letter_upper": "B", "letter_lower": "b", "arabic": "ب", "name": "Beh",   "ipa": "/b/",        "unicode_upper": "U+0042", "unicode_lower": "U+0062", "origin": "ASCII", "notes": "Identical in all systems" },
+    { "no": 3,  "letter_upper": "P", "letter_lower": "p", "arabic": "پ", "name": "Pee",   "ipa": "/p/",        "unicode_upper": "U+0050", "unicode_lower": "U+0070", "origin": "ASCII", "notes": "Foreign loanwords only; p ≠ b" },
+    { "no": 4,  "letter_upper": "T", "letter_lower": "t", "arabic": "ت", "name": "Teh",   "ipa": "/t/",        "unicode_upper": "U+0054", "unicode_lower": "U+0074", "origin": "ASCII", "notes": "Identical in all systems" },
+    { "no": 5,  "letter_upper": "Θ", "letter_lower": "θ", "arabic": "ث", "name": "Ṯeh",   "ipa": "/θ/ → /s/",  "unicode_upper": "U+0398", "unicode_lower": "U+03B8", "origin": "Greek",  "notes": "Greek theta; Cairene merger → /s/ (Tier 1 uses s or t)" },
+    { "no": 6,  "letter_upper": "G", "letter_lower": "g", "arabic": "ج", "name": "Geem",  "ipa": "/g/",        "unicode_upper": "U+0047", "unicode_lower": "U+0067", "origin": "ASCII", "notes": "Hard G; never /dʒ/ in Cairo" },
+    { "no": 7,  "letter_upper": "Ϩ", "letter_lower": "ϩ", "arabic": "ح", "name": "Ḥa",    "ipa": "/ħ/",        "unicode_upper": "U+03E8", "unicode_lower": "U+03E9", "origin": "Coptic", "notes": "Coptic Hori; mirrors shape of ح; never numeral 7" },
+    { "no": 8,  "letter_upper": "X", "letter_lower": "x", "arabic": "خ", "name": "Ḵa",    "ipa": "/x/",        "unicode_upper": "U+0058", "unicode_lower": "U+0078", "origin": "ASCII", "notes": "Pan-European /x/" },
+    { "no": 9,  "letter_upper": "D", "letter_lower": "d", "arabic": "د", "name": "Daal",  "ipa": "/d/",        "unicode_upper": "U+0044", "unicode_lower": "U+0064", "origin": "ASCII", "notes": "Identical in all systems" },
+    { "no": 10, "letter_upper": "Ð", "letter_lower": "ð", "arabic": "ذ", "name": "Ḏaal",  "ipa": "/ð/ → /z/",  "unicode_upper": "U+00D0", "unicode_lower": "U+00F0", "origin": "Latin ext.", "notes": "Eth; Cairene merger /ð/→/z/, Masri reflects phonetic reality" },
+    { "no": 11, "letter_upper": "R", "letter_lower": "r", "arabic": "ر", "name": "Reh",   "ipa": "/r/",        "unicode_upper": "U+0052", "unicode_lower": "U+0072", "origin": "ASCII", "notes": "Identical in all systems" },
+    { "no": 12, "letter_upper": "Z", "letter_lower": "z", "arabic": "ز", "name": "Zeen",  "ipa": "/z/",        "unicode_upper": "U+005A", "unicode_lower": "U+007A", "origin": "ASCII", "notes": "Identical in all systems" },
+    { "no": 13, "letter_upper": "S", "letter_lower": "s", "arabic": "س", "name": "Seen",  "ipa": "/s/",        "unicode_upper": "U+0053", "unicode_lower": "U+0073", "origin": "ASCII", "notes": "Identical in all systems" },
+    { "no": 14, "letter_upper": "Ϣ", "letter_lower": "ϣ", "arabic": "ش", "name": "Sheen", "ipa": "/ʃ/",        "unicode_upper": "U+03E2", "unicode_lower": "U+03E3", "origin": "Coptic", "notes": "Coptic Shai; dotless ش skeleton; replaces sh digraph" },
+    { "no": 15, "letter_upper": "Ṣ", "letter_lower": "ṣ", "arabic": "ص", "name": "Ṣaad",  "ipa": "/sˤ/",       "unicode_upper": "U+1E62", "unicode_lower": "U+1E63", "origin": "Latin ext.", "notes": "Emphatic; dot-below rule applies to Ṣ Ḍ Ṭ Ẓ" },
+    { "no": 16, "letter_upper": "Ḍ", "letter_lower": "ḍ", "arabic": "ض", "name": "Ḍaad",  "ipa": "/dˤ/",       "unicode_upper": "U+1E0C", "unicode_lower": "U+1E0D", "origin": "Latin ext.", "notes": "Emphatic D" },
+    { "no": 17, "letter_upper": "Ṭ", "letter_lower": "ṭ", "arabic": "ط", "name": "Ṭah",   "ipa": "/tˤ/",       "unicode_upper": "U+1E6C", "unicode_lower": "U+1E6D", "origin": "Latin ext.", "notes": "Emphatic T" },
+    { "no": 18, "letter_upper": "Ẓ", "letter_lower": "ẓ", "arabic": "ظ", "name": "Ẓah",   "ipa": "/ðˤ/",       "unicode_upper": "U+1E92", "unicode_lower": "U+1E93", "origin": "Latin ext.", "notes": "Merges with Ḍ in most Cairene contexts" },
+    { "no": 19, "letter_upper": "Ⲵ", "letter_lower": "Ⲵ", "arabic": "ع", "name": "ʿAin",  "ipa": "/ʕ/",        "unicode_upper": "U+2CB4", "unicode_lower": "U+2CB4", "origin": "Coptic", "notes": "Coptic Old Ain; uppercase = lowercase for visual consistency; descends from hieroglyph for 'eye'" },
+    { "no": 20, "letter_upper": "Ɣ", "letter_lower": "ɣ", "arabic": "غ", "name": "Gheen", "ipa": "/ɣ/",        "unicode_upper": "U+0194", "unicode_lower": "U+0263", "origin": "Greek",  "notes": "IPA voiced velar fricative; Greek gamma" },
+    { "no": 21, "letter_upper": "F", "letter_lower": "f", "arabic": "ف", "name": "Feh",   "ipa": "/f/",        "unicode_upper": "U+0046", "unicode_lower": "U+0066", "origin": "ASCII", "notes": "Identical in all systems" },
+    { "no": 22, "letter_upper": "V", "letter_lower": "v", "arabic": "ڤ", "name": "Vee",   "ipa": "/v/",        "unicode_upper": "U+0056", "unicode_lower": "U+0076", "origin": "ASCII", "notes": "Foreign loanwords only; v ≠ f, both original phonemes" },
+    { "no": 23, "letter_upper": "Q", "letter_lower": "q", "arabic": "ق", "name": "Qaaf",  "ipa": "/q/",        "unicode_upper": "U+0051", "unicode_lower": "U+0071", "origin": "ASCII", "notes": "Full /q/ for MSA/formal registers; colloquial Cairene → glottal Ɐ" },
+    { "no": 24, "letter_upper": "K", "letter_lower": "k", "arabic": "ك", "name": "Kaaf",  "ipa": "/k/",        "unicode_upper": "U+004B", "unicode_lower": "U+006B", "origin": "ASCII", "notes": "Identical in all systems" },
+    { "no": 25, "letter_upper": "L", "letter_lower": "l", "arabic": "ل", "name": "Laam",  "ipa": "/l/",        "unicode_upper": "U+004C", "unicode_lower": "U+006C", "origin": "ASCII", "notes": "Identical in all systems" },
+    { "no": 26, "letter_upper": "M", "letter_lower": "m", "arabic": "م", "name": "Meem",  "ipa": "/m/",        "unicode_upper": "U+004D", "unicode_lower": "U+006D", "origin": "ASCII", "notes": "Identical in all systems" },
+    { "no": 27, "letter_upper": "N", "letter_lower": "n", "arabic": "ن", "name": "Noon",  "ipa": "/n/",        "unicode_upper": "U+004E", "unicode_lower": "U+006E", "origin": "ASCII", "notes": "Identical in all systems" },
+    { "no": 28, "letter_upper": "H", "letter_lower": "h", "arabic": "ه", "name": "Heh",   "ipa": "/h/",        "unicode_upper": "U+0048", "unicode_lower": "U+0068", "origin": "ASCII", "notes": "Soft H as in 'hat'; distinct from pharyngeal Ϩ" },
+    { "no": 29, "letter_upper": "O", "letter_lower": "o", "arabic": "و", "name": "Oh",    "ipa": "/ʔo/, /o/",  "unicode_upper": "U+004F", "unicode_lower": "U+006F", "origin": "Vowel/semivowel", "notes": "Waw as long vowel /oː/" },
+    { "no": 30, "letter_upper": "U", "letter_lower": "u", "arabic": "و", "name": "Ū",     "ipa": "/ʔu/, /u/",  "unicode_upper": "U+0055", "unicode_lower": "U+0075", "origin": "Vowel/semivowel", "notes": "Waw as long vowel /uː/" },
+    { "no": 31, "letter_upper": "W", "letter_lower": "w", "arabic": "و", "name": "Dablew","ipa": "/ʔw/, /w/",  "unicode_upper": "U+0057", "unicode_lower": "U+0077", "origin": "Vowel/semivowel", "notes": "Waw as consonant /w/" },
+    { "no": 32, "letter_upper": "E", "letter_lower": "e", "arabic": "ي", "name": "Ee",    "ipa": "/ʔe/, /e/",  "unicode_upper": "U+0045", "unicode_lower": "U+0065", "origin": "Vowel/semivowel", "notes": "Ya as long vowel /eː/" },
+    { "no": 33, "letter_upper": "I", "letter_lower": "i", "arabic": "ي", "name": "Ai",    "ipa": "/ʔi/, /i/",  "unicode_upper": "U+0049", "unicode_lower": "U+0069", "origin": "Vowel/semivowel", "notes": "Ya as long vowel /iː/" },
+    { "no": 34, "letter_upper": "Y", "letter_lower": "y", "arabic": "ي", "name": "Wye",   "ipa": "/ʔj/, /j/",  "unicode_upper": "U+0059", "unicode_lower": "U+0079", "origin": "Vowel/semivowel", "notes": "Ya as consonant /j/ (as in 'yes')" },
+    { "no": 35, "letter_upper": "Ɐ", "letter_lower": "ɐ", "arabic": "ء", "name": "Hamza", "ipa": "/ʔ/",        "unicode_upper": "U+2C6F", "unicode_lower": "U+2C6F", "origin": "Latin ext.", "notes": "Upside-down A; glottal stop; mirror of Alef (open ↔ closed); represents ء, ق-Cairene, and all hamza forms (أ ؤ ئ) uniformly; always silent word-initially" }
+  ],
+
+  "borrowed_orthography": [
+    { "letter_upper": "C", "letter_lower": "c", "arabic": "—", "name": "See",  "ipa": "/s/, /k/", "unicode_upper": "U+0043", "unicode_lower": "U+0063", "notes": "Restricted to code-switched words kept in original spelling" },
+    { "letter_upper": "J", "letter_lower": "j", "arabic": "چ", "name": "Jéh",  "ipa": "/d͜ʒ/",     "unicode_upper": "U+004A", "unicode_lower": "U+006A", "notes": "Restricted to code-switched words kept in original spelling" }
+  ],
+
+  "vowel_system": {
+    "short_vowels": [
+      { "arabic": "فتحة", "sound": "a (short)", "tier2": "a" },
+      { "arabic": "ضمة",  "sound": "u (short)", "tier2": "u" },
+      { "arabic": "كسرة", "sound": "i (short)", "tier2": "i" },
+      { "arabic": "schwa/unstressed", "sound": "ə (often omitted)", "tier2": "ə (often omitted)", "example": "mⲴleϣϣ vs məttəⲴ" }
+    ],
+    "long_vowels": [
+      { "arabic": "ا / آ", "sound": "ā (long a)", "tier2": "ā" },
+      { "arabic": "و",     "sound": "ū (long u)", "tier2": "ū" },
+      { "arabic": "ي",     "sound": "ī (long i)", "tier2": "ī" }
+    ],
+    "diphthongs": [
+      { "arabic": "ـَي", "sound": "ay/ei", "spelling": "ay" },
+      { "arabic": "ـَو", "sound": "aw/ou", "spelling": "aw" }
+    ],
+    "rule": "Short vowels are optional in fluent writing but required in ambiguous contexts and learning materials."
+  },
+
+  "ayin_rule": {
+    "title": "The ع Problem — Most Critical Rule",
+    "tier1_symbol": "` (backtick)",
+    "tier2_symbol": "Ⲵ (Coptic Old Ain, U+2CB4)",
+    "note": "In Tier 2, ع is always represented by Ⲵ (uppercase = lowercase for visual consistency).",
+    "examples": [
+      { "arabic": "عارف",  "wrong_vowel_only": "aref",   "tier1": "`aref",   "tier2": "Ⲵaref",   "meaning": "knowing" },
+      { "arabic": "بعدين", "wrong_vowel_only": "badeen", "tier1": "ba`deen", "tier2": "baⲴdeen", "meaning": "afterwards" },
+      { "arabic": "عشان",  "wrong_vowel_only": "ashan",  "tier1": "`ashan",  "tier2": "Ⲵaϣan",   "meaning": "because/for" },
+      { "arabic": "على",   "wrong_vowel_only": "ala",    "tier1": "`ala",    "tier2": "Ⲵala",    "meaning": "on/upon" },
+      { "arabic": "معاك",  "wrong_vowel_only": "maak",   "tier1": "ma`ak",   "tier2": "maⲴak",   "meaning": "with you" }
+    ]
+  },
+
+  "spelling_rules": [
+    {
+      "id": 1,
+      "name": "Gemination (Doubled consonants)",
+      "rule": "Doubled consonants are written doubled.",
+      "examples": ["حُبّ → hobb / Ϩobb", "جدا → geddan"]
+    },
+    {
+      "id": 2,
+      "name": "Definite Article",
+      "rule": "Always written 'el' regardless of sun/moon-letter assimilation in speech. Spelling consistency is prioritized over phonetic transcription to reduce writer decision load.",
+      "examples": ["البيت → el beet", "الشارع → el ϣaareⲴ"]
+    },
+    {
+      "id": 3,
+      "name": "Glottal Stop",
+      "rule": "Written only mid-word and word-finally, using Ɐ in Tier 2 (apostrophe ' in Tier 1). Word-initial glottal stop — whether etymological ء or Cairene ق — is always silent in spelling and encoded.",
+      "examples": ["أنا → ana (not Ɐana)", "مسئولية → masⱯooleya"]
+    },
+    {
+      "id": 4,
+      "name": "Digraph Integrity",
+      "rule": "Applies to Tier 1 only (sh/kh/gh as inseparable two-letter units). In Tier 2 these are single letters (ϣ, x, ɣ) so this rule is not applicable.",
+      "tier2_note": "Superseded by single-character mapping: sh→ϣ, kh→x, gh→ɣ"
+    },
+    {
+      "id": 5,
+      "name": "Cairene ق and Hamza Merger",
+      "rule": "Ɐ represents the glottal phoneme regardless of etymological origin. Cairene ق and hamza are treated as a single phoneme (glottal stop) because they are phonetically identical in the Cairene dialect; q is reserved for formal/MSA pronunciation.",
+      "examples": ["قال → Ɐaal (everyday: 'aal)", "قرآن → Qur'an (formal, retains q)"]
+    },
+    {
+      "id": 6,
+      "name": "The Letters P and V",
+      "rule": "P and V are full, independent letters, not interchangeable with B or F. p is used mainly in loanwords/modern vocabulary; v is an original, coexisting phoneme.",
+      "examples": ["بيانو → piano (not biano)", "بنك → bank", "أوفر → over"]
+    }
+  ],
+
+  "standardized_word_list": [
+    { "arabic": "إن شاء الله", "tier1": "inshala / insha'allah", "tier2": "inϣāⱯallāh", "notes": "Written as one word" },
+    { "arabic": "قهوة", "tier1": "ahwa", "tier2": "ahwa", "notes": "Cairo drops initial hamza" },
+    { "arabic": "أيوة", "tier1": "aywa", "tier2": "aywa", "notes": "—" },
+    { "arabic": "مش", "tier1": "mesh", "tier2": "miϣ", "notes": "—" },
+    { "arabic": "يعني", "tier1": "yaani / ya`ni", "tier2": "yaⲴni", "notes": "—" },
+    { "arabic": "كده / كدة", "tier1": "kida", "tier2": "keda", "notes": "—" },
+    { "arabic": "عشان", "tier1": "ashan / `ashan", "tier2": "Ⲵaϣan", "notes": "—" },
+    { "arabic": "بس", "tier1": "bass", "tier2": "bass", "notes": "—" },
+    { "arabic": "زي", "tier1": "zay", "tier2": "zay", "notes": "—" },
+    { "arabic": "والله", "tier1": "walla / wallahi", "tier2": "wallāh / wallāhi", "notes": "—" },
+    { "arabic": "الحمدلله", "tier1": "elhamdolilla / hamdilla", "tier2": "elϨamdolillāh", "notes": "One word, everyday" },
+    { "arabic": "بسم الله", "tier1": "besmella", "tier2": "besmellāh", "notes": "—" },
+    { "arabic": "ماشاء الله", "tier1": "mashalla / masha'alla", "tier2": "māϣāⱯallāh", "notes": "—" },
+    { "arabic": "يارب", "tier1": "ya rab", "tier2": "yā rabb", "notes": "—" }
+  ],
+
+  "loanword_examples": [
+    { "arabic": "تليفزيون", "tier1": "televezyon", "source": "English — television" },
+    { "arabic": "كمبيوتر",  "tier1": "kombyoter",  "source": "English — computer" },
+    { "arabic": "موبايل",   "tier1": "mobayl",     "source": "English — mobile" },
+    { "arabic": "أوتوبيس",  "tier1": "otobees",    "source": "French — autobus" },
+    { "arabic": "بيانو",    "tier1": "piano",  "wrong": "biano",  "notes": "Musical instrument" },
+    { "arabic": "بيتزا",    "tier1": "pizza / pitza", "wrong": "bizza", "notes": "Food loanword" },
+    { "arabic": "باركينج",  "tier1": "parking", "wrong": "barking", "notes": "Ambiguous without p" },
+    { "arabic": "بلاستيك",  "tier1": "plastic", "wrong": "blastic", "notes": "—" },
+    { "arabic": "برينتر",   "tier1": "printer", "wrong": "brinter", "notes": "Tech vocabulary" },
+    { "arabic": "بروجكت",   "tier1": "project",  "wrong": "broject", "notes": "Professional context" },
+    { "arabic": "باسبور",   "tier1": "passport / passpour", "wrong": "bassport / basboor", "notes": "Official documents" },
+    { "arabic": "بامب",     "tier1": "pump", "wrong": "bumb", "notes": "Engineering term" }
+  ],
+
+  "sample_texts": {
+    "tier2_academic": "Ana baϨeb Maṣr. El ahwa el maṣreyya aϨsan ahwa fi el donya. Keda miϣ ra'y, dah ϨaⱯiⱯa.",
+    "tier1_everyday": "Ana baheb Masr. El ahwa el masreya ahesan ahwa fi el donya. Keda mesh ra'y, dah ha'i'a (haqiqa).",
+    "arabic_script": "أنا بحب مصر. القهوة المصرية أحسن قهوة في الدنيا. كدة مش رأي. دة حقيقة.",
+    "stress_test_sentences_tier2": [
+      "Ana Ⲵarif inno el loɣa el maṣreya aϨsan loɣa fi el donya, we da elli xallāni aϣtaɣal feha koll yoom.",
+      "El ott el adeem baⲴdeen ge el beet we Ϩabbeto geddan — howa el waϨeed elli miϣ meⲴaⱯadni.",
+      "Bass lamma Ϩawwelt aṭbaⲴ el awraaⱯ el mohemma kanet el printer miϣ ϣaɣɣala lel asaf Ⲵaϣan el power cable miϣ mawgood.",
+      "El ḍabⲴ da ẓahar ṭabⲴan we el mawḍooⲴ da etⲴaⱯad xalaaṣ.",
+      "Inϣāllāh bokra nϣūf, elϨamdillāh Ⲵandena waⱯt.",
+      "El moϣkela en el ϣaɣɣāla el xeϣna el ɣaϣeema el over ɣalaṭatha ziyāda fe el θamarāt.",
+      "We ewⲴa el ouda elli goowa el beet el beeⱯa elli fi el ϣaariⲴ el mahgoor laϨsan hatexsar keteer.",
+      "ForⱯoⲴlowz raⱯaṣ Ⲵa el sellem we bass keda ya sidi we el meⲴallem Sardeena dafaⲴ feloos keteer lel ṣowaan we el farsha Ⲵa el ard.",
+      "Oom oⱯaf we enta betkallemni, Oom oⱯaf boṣṣeli we fahhemni.",
+      "EϨna benⱯool aaxer madena heyya madenet el Salaam ya abo el Ⲵorréf, matlaɣweϣϣi Ⲵalayya we balaaϣ avwara ya over enta."
+    ]
+  },
+
+  "design_principles": [
+    "One symbol per sound: each sound maps to exactly one symbol and vice versa.",
+    "Simplicity prioritized over aesthetics: speed and ease over formal elegance.",
+    "Cairene reference dialect: urban Cairo Egyptian Arabic is the normative standard.",
+    "No numerals: no Arabic or Western numeral substitutes a letter.",
+    "Keyboard accessibility (Tier 1): everyday symbols typeable on standard Latin keyboards; Tier 2 requires supplementary Greek/Coptic input."
+  ],
+
+  "origin_legend": {
+    "ASCII": "Standard ASCII characters, no special input needed",
+    "Coptic": "Ϩ (U+03E8), Ϣ (U+03E2), Ⲵ (U+2CB4)",
+    "Greek": "Θ (U+0398), Ɣ (U+0194)",
+    "Latin_ext": "Ð (U+00D0); emphatics Ṣ Ḍ Ṭ Ẓ (dot-below rule); Ɐ (U+2C6F)",
+    "Vowel_semivowel": "Three Waws (O/U/W) and three Yaas (E/I/Y)",
+    "Borrowed": "C and J — restricted to code-switched words in original spelling only"
+  }
+}

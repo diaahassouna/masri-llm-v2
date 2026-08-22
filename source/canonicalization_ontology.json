@@ -1,0 +1,173 @@
+{
+  "meta": {
+    "purpose": "A formal ontology of the categories used throughout Masri-LLM: token classes, lexical-status classes, and normalization-operation classes, plus the decision procedures that assign them. This is meant to be read and stabilized BEFORE generating substantially more training data — every category name used in build_dataset.py's `category` field, augment_with_claude.py's generation prompt, source/lexicon.json's `loanword_status` field, and validate_output.py's token classifier should trace back to an id defined here. If a script or data file introduces a category name that isn't in this ontology, that's a signal to either add it here first (with a definition and decision procedure) or fix the script — not to let ad-hoc category names accumulate the way dataset_stats.json's stale category names did before the Aug 2026 audit.",
+    "status": "v1 — formalizes decision frameworks already present informally in masri_tier2_system_prompt.md, tier2-rules.json, and source/changelog.md. Not yet exhaustively cross-checked against every existing category string in the codebase — that reconciliation is the next step before scaling data generation.",
+    "schema_version": "1.0"
+  },
+
+  "token_classes": [
+    {
+      "id": "arabic_script",
+      "description": "Input token written in Arabic script (with or without diacritics).",
+      "examples": ["القمر", "بيانو"]
+    },
+    {
+      "id": "franco_arabizi",
+      "description": "Input token written in Latin script using Franco/Arabizi conventions (digit-substituted phonemes, informal spelling).",
+      "examples": ["2al", "3arfa", "7aga"]
+    },
+    {
+      "id": "masri_tier1",
+      "description": "Input or output token in Masri Tier 1 (ASCII-compatible, simplified) orthography.",
+      "examples": []
+    },
+    {
+      "id": "masri_tier2",
+      "description": "Canonical output token in Masri Tier 2 (Coptic/Greek/Latin-extended) orthography — the system's target register.",
+      "examples": ["Ϩelw", "Ⲵaref"]
+    },
+    {
+      "id": "english_codeswitch",
+      "description": "A token that is genuine English code-switching: the speaker intends the English word AS English, spelling preserved as typed. Distinguished from egyptianized_loanword by the decision procedure `dp_codeswitch_vs_loanword` below.",
+      "examples": ["Save", "Pixel", "WOW"]
+    },
+    {
+      "id": "egyptianized_loanword",
+      "description": "A foreign-origin word phonologically and/or morphologically adapted into Egyptian Arabic, spelled per Masri rules (not preserved in original orthography).",
+      "examples": ["bitza", "asansēr", "kalaks"]
+    },
+    {
+      "id": "bound_morphology_on_unadapted_stem",
+      "description": "A foreign stem that keeps its original (unadapted) spelling but has Egyptian grammatical morphology bound directly to it with no space — distinct from both pure code-switch (no morphology attached) and full egyptianized_loanword (stem itself respelled). Added to the ontology per source/changelog.md's 2026-08-20 'asave' finding; still PROVISIONAL as a named class.",
+      "examples": ["asave"]
+    },
+    {
+      "id": "proper_noun",
+      "description": "A name (person, place, brand) — spelling policy may differ from common-noun loanword policy; not yet formally specified beyond 'preserve as typed' default.",
+      "examples": []
+    },
+    {
+      "id": "number",
+      "description": "A token representing a genuine numeric value (quantity, clock time, price, count) — never decoded as a phoneme-digit. See rule_zero below.",
+      "examples": ["2 pizza (the '2')", "el saⲴa 7 (the '7')"]
+    },
+    {
+      "id": "punctuation",
+      "description": "Punctuation/formatting token, script-agnostic.",
+      "examples": [".", "؟", "!"]
+    },
+    {
+      "id": "unknown_foreign",
+      "description": "A foreign-origin token the system cannot confidently classify into any of the above. Default handling: preserve as typed, do not invent an Egyptianized spelling (see decision procedure dp_unknown_word below).",
+      "examples": []
+    }
+  ],
+
+  "lexical_status_classes": [
+    {
+      "id": "established",
+      "description": "A common or reliably attested Egyptian lexical form with a canonical Masri representation, present in source/lexicon.json with confidence=established."
+    },
+    {
+      "id": "recognized_variant",
+      "description": "A known alternative spelling/input form that should normalize to an established canonical form. Includes PROVISIONAL entries pending confirmation (e.g. 'escript' in source/lexicon.json) — provisional status is tracked via the entry's own confidence field, not a separate lexical_status_class."
+    },
+    {
+      "id": "code_switch",
+      "description": "Genuine English (or other foreign-language) code-switch: spelling preserved as typed, not normalized into Masri orthography at all beyond capitalization/punctuation conventions."
+    },
+    {
+      "id": "uncertain",
+      "description": "Not confidently any of the above. Default behavior per dp_unknown_word: preserve the foreign spelling, do not hallucinate a canonical form, optionally flag for the user."
+    }
+  ],
+
+  "normalization_operations": [
+    {
+      "id": "orthographic_normalization",
+      "description": "Convert spelling/script to canonical Masri Tier 2. ALWAYS apply — this is the system's core function.",
+      "applies_to": ["arabic_script", "franco_arabizi", "masri_tier1", "egyptianized_loanword"]
+    },
+    {
+      "id": "phonological_normalization",
+      "description": "Resolve ambiguous or lossy input spelling to the correct underlying phoneme sequence before applying orthographic rules. Apply WHEN pronunciation is recoverable from context/lexicon; do not guess blindly.",
+      "applies_to": ["franco_arabizi"]
+    },
+    {
+      "id": "morphological_preservation",
+      "description": "Preserve morphological information (tense, person, number, gender, derivation) present in the input. PRESERVE if linguistically meaningful — do not strip or simplify.",
+      "applies_to": ["arabic_script", "franco_arabizi", "masri_tier1"]
+    },
+    {
+      "id": "syntactic_preservation",
+      "description": "Preserve word order and sentence structure exactly as input, even when an alternative order is more frequent/idiomatic. PRESERVE if grammatically valid — this is masri_tier2_system_prompt.md's Core principle extended to syntax; see the 'Eh elli tamm?' vs 'Elli tamm eh?' example in the original project brief.",
+      "applies_to": ["arabic_script", "franco_arabizi"]
+    },
+    {
+      "id": "semantic_preservation",
+      "description": "Preserve meaning exactly. ALWAYS apply, no exceptions — this is the operation every other operation is subordinate to.",
+      "applies_to": ["*"]
+    }
+  ],
+
+  "rule_zero": {
+    "id": "rule_zero_digit_policy",
+    "statement": "A digit must never survive in canonical Masri output as a phoneme letter-substitute. A digit may appear in output ONLY when it represents a genuine number (token_class = number). See masri_tier2_system_prompt.md 'Rule 0' for the authoritative statement; scripts/build_dataset.py's `_assert_rule_zero()` and scripts/validate_output.py's glued-digit check are the two mechanical enforcement points.",
+    "mechanical_checks": ["build_dataset.py:_assert_rule_zero", "validate_output.py:validate (numeral_as_letter)"]
+  },
+
+  "decision_procedures": [
+    {
+      "id": "dp_codeswitch_vs_loanword",
+      "question": "Is a foreign-origin token english_codeswitch, egyptianized_loanword, or bound_morphology_on_unadapted_stem?",
+      "procedure": [
+        "1. Is Egyptian grammatical morphology (prefix/suffix/plural/derivation) bound directly to the stem with no space?",
+        "   NO  -> is the stem itself respelled per Egyptian phonology (not just typed as English)?",
+        "         YES -> egyptianized_loanword (confidence per lexicon.json entry, or 'uncertain' if unlisted)",
+        "         NO  -> english_codeswitch (preserve spelling as typed)",
+        "   YES -> is the STEM itself respelled (egyptianized) or kept in original spelling?",
+        "         respelled -> egyptianized_loanword (morphology + respelling both present, e.g. bitza/bitzat)",
+        "         original spelling kept -> bound_morphology_on_unadapted_stem (e.g. 'asave') — PROVISIONAL class, flag for review each time it's produced until formally adopted"
+      ],
+      "source": "source/changelog.md 2026-08-20 entries; original project brief Section 4-5"
+    },
+    {
+      "id": "dp_numeral_vs_number",
+      "question": "Is a digit in Franco/Arabizi input an arithmographeme (phoneme substitute) or a genuine number?",
+      "procedure": [
+        "1. Is the digit glued to Latin letters (no surrounding space/punctuation)?",
+        "   YES -> arithmographeme -> decode per Rule 0's phoneme mapping, never surfaces as a digit in output",
+        "   NO  -> standalone token -> is it followed by/adjacent to a countable noun or currency word?",
+        "          YES -> genuine number -> keep as numeral (or spell out if the surrounding convention calls for it, e.g. clock time — see source/numeral_disambiguation_examples.json item num-05, unresolved)",
+        "          NO/ambiguous -> default to the arithmographeme reading if sentence context is otherwise Franco; flag low confidence"
+      ],
+      "source": "source/numeral_disambiguation_examples.json; masri_tier2_system_prompt.md Rule 0"
+    },
+    {
+      "id": "dp_unknown_word",
+      "question": "Encountered a foreign-origin token not in source/lexicon.json and not matching any established pattern.",
+      "procedure": [
+        "1. Do NOT invent an Egyptianized spelling.",
+        "2. Preserve the token's original spelling (treat as english_codeswitch by default).",
+        "3. Flag uncertainty to the user/caller rather than silently guessing (masri_tier2_system_prompt.md Behavior section: 'Never invent new spellings for rules not covered here')."
+      ],
+      "source": "masri_tier2_system_prompt.md Behavior section"
+    },
+    {
+      "id": "dp_normalization_vs_rewriting",
+      "question": "Should input be orthographically normalized only, or does an operation risk crossing into unwanted grammatical/syntactic rewriting?",
+      "procedure": [
+        "1. Apply orthographic_normalization and phonological_normalization unconditionally.",
+        "2. Do NOT apply any change that would alter word order, tense/aspect, or word choice UNLESS the input is malformed in a way that makes the intended word ambiguous (see morphological_preservation, syntactic_preservation above).",
+        "3. If genuinely unsure whether a change is orthographic or grammatical, default to preservation (syntactic_preservation wins ties)."
+      ],
+      "source": "original project brief Section 2 ('Eh elli tamm?' example); masri_tier2_system_prompt.md Core principle"
+    }
+  ],
+
+  "open_items": [
+    "Reconcile every category string currently used in data/dataset_stats.json, augment_with_claude.py's GEN_INSTRUCTIONS enum, and source/lexicon.json's loanword_status values against this ontology's ids — not yet done as of v1.",
+    "bound_morphology_on_unadapted_stem has only one confirmed instance (source/changelog.md 2026-08-20) — needs more examples before being treated as a stable class rather than a hypothesis.",
+    "Numeral-vs-number decision procedure's clock-time exception (num-05 in numeral_disambiguation_examples.json) is unresolved and needs the project author's judgment call, not a confident rule here."
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "purpose": "Contrast pairs distinguishing Arabizi arithmographemes (2/3/5/7 standing in for hamza/ain/kha/ha) from genuine numeric tokens. Confirmed zero coverage anywhere in the repo as of the Aug 2026 audit — the mega-prompt names this as a required capability (Section 7) but no source file, training example, or eval item tests it.",
+    "status": "seed set — hand-constructed contrast pairs, provisional rule per audit Part 4b",
+    "category": "numeral_disambiguation",
+    "provisional_rule": "If a digit (2/3/5/7) is glued to Latin letters with no surrounding space/punctuation, treat it as an Arabizi arithmographeme and decode per the phoneme mapping in masri_tier2_system_prompt.md — never surface it as a digit in Masri output. If the digit is a standalone token or followed by a unit/currency word, treat it as a genuine number and keep it as a numeral. This rule is PROVISIONAL — validated against the small set below, not yet checked against a large sample of real Franco messages."
+  },
+  "items": [
+    {
+      "id": "num-01",
+      "input": "2al eno msh gai",
+      "expected": "Aal enno miϣ gaii",
+      "tests_for": "'2' glued to 'al' with no space -> Arabizi hamza, decodes to silent word-initial glottal (per rule 3), NOT the digit 2.",
+      "contrast_with": "num-02"
+    },
+    {
+      "id": "num-02",
+      "input": "hat li 2 pizza",
+      "expected": "Hatli 2 bitza",
+      "tests_for": "'2' as a standalone token before a countable noun -> genuine number, kept as a numeral in output. Same digit as num-01, opposite reading, disambiguated purely by spacing/token boundary.",
+      "contrast_with": "num-01"
+    },
+    {
+      "id": "num-03",
+      "input": "3arfa 3 naas gum dilwa2ti",
+      "expected": "Ⲵarfa talat naas gum delwaɐti",
+      "tests_for": "Two digits in one sentence with different roles: '3arfa' (glued, word-initial) -> Ⲵ (ayin); '3 naas' (standalone, before a counted noun) -> genuine number 'talat' (elided form before counted noun, per the tha-merger/counting rule already in the system prompt). Also confirms the same digit character can be Arabizi in one token and irrelevant-as-a-letter in the next.",
+      "contrast_with": "num-01, num-02"
+    },
+    {
+      "id": "num-04",
+      "input": "7abibi feen 7aga akol",
+      "expected": "Ϩabibi feen Ϩaga aakol",
+      "tests_for": "'7' glued word-initially in two separate tokens -> both Arabizi ح (Ϩ), no genuine number reading available in this sentence context at all (no counted noun, no currency/unit word nearby).",
+      "contrast_with": null
+    },
+    {
+      "id": "num-05",
+      "input": "el sea3a 7 delwa2ti",
+      "expected": "El saⲴa sabⲴa delwaɐti",
+      "tests_for": "Ambiguous case: '7' here is a standalone token (space-delimited, like num-02's genuine-number pattern) but the sentence meaning is clock time ('the clock/hour is 7'), and clock-time numbers are conventionally spelled out as words in fluent Masri prose, not left as digits — unlike num-02's countable-object number. Flags a genuine open edge in the provisional rule: 'standalone token' alone is not sufficient to decide numeral-vs-word-spelled-out; semantic category (clock time vs. counted quantity) also matters. Labeled provisional/uncertain — needs the project author's judgment call, not confidently resolved here.",
+      "contrast_with": "num-02"
+    }
+  ]
+}

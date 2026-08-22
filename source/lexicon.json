@@ -1,0 +1,594 @@
+{
+  "meta": {
+    "purpose": "Human-readable, hand-maintained dictionary of loanwords, code-switch forms, and standardized high-frequency words. This is the SOURCE OF TRUTH — edit this file directly. source/lexicon.sqlite (built by scripts/build_lexicon.py) is a generated, disposable index for fast inference-time lookup; regenerate it after editing this file, don't hand-edit the sqlite database itself, and don't treat sqlite generation as a prerequisite for editing the lexicon.",
+    "schema_version": "1.0",
+    "field_notes": {
+      "loanword_status": "established | recognized_variant | code_switch — see source/canonicalization_ontology.json for the formal definitions and the decision procedure for assigning this field to a new entry.",
+      "confidence": "established | recognized_variant | uncertain",
+      "code_switch_form": "set only when loanword_status == code_switch; the spelling to preserve as-is."
+    }
+  },
+  "entries": [
+    {
+      "id": "lex_0001",
+      "canonical_masri": "televezyon",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "تليفزيون"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": null,
+      "source_language": "English",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json loanword_examples",
+      "example_inputs": [],
+      "notes": "English — television"
+    },
+    {
+      "id": "lex_0002",
+      "canonical_masri": "kombyoter",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "كمبيوتر"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": null,
+      "source_language": "English",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json loanword_examples",
+      "example_inputs": [],
+      "notes": "English — computer"
+    },
+    {
+      "id": "lex_0003",
+      "canonical_masri": "mobayl",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "موبايل"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": null,
+      "source_language": "English",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json loanword_examples",
+      "example_inputs": [],
+      "notes": "English — mobile"
+    },
+    {
+      "id": "lex_0004",
+      "canonical_masri": "otobees",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "أوتوبيس"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": null,
+      "source_language": "French",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json loanword_examples",
+      "example_inputs": [],
+      "notes": "French — autobus"
+    },
+    {
+      "id": "lex_0005",
+      "canonical_masri": "piano",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "بيانو"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": null,
+      "source_language": "unknown",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json loanword_examples",
+      "example_inputs": [],
+      "notes": "Musical instrument"
+    },
+    {
+      "id": "lex_0006",
+      "canonical_masri": "pizza / pitza",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "بيتزا"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": null,
+      "source_language": "unknown",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json loanword_examples",
+      "example_inputs": [],
+      "notes": "Food loanword"
+    },
+    {
+      "id": "lex_0007",
+      "canonical_masri": "parking",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "باركينج"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": null,
+      "source_language": "unknown",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json loanword_examples",
+      "example_inputs": [],
+      "notes": "Ambiguous without p"
+    },
+    {
+      "id": "lex_0008",
+      "canonical_masri": "plastic",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "بلاستيك"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": null,
+      "source_language": "unknown",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json loanword_examples",
+      "example_inputs": [],
+      "notes": "—"
+    },
+    {
+      "id": "lex_0009",
+      "canonical_masri": "printer",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "برينتر"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": null,
+      "source_language": "unknown",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json loanword_examples",
+      "example_inputs": [],
+      "notes": "Tech vocabulary"
+    },
+    {
+      "id": "lex_0010",
+      "canonical_masri": "project",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "بروجكت"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": null,
+      "source_language": "unknown",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json loanword_examples",
+      "example_inputs": [],
+      "notes": "Professional context"
+    },
+    {
+      "id": "lex_0011",
+      "canonical_masri": "passport / passpour",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "باسبور"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": null,
+      "source_language": "unknown",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json loanword_examples",
+      "example_inputs": [],
+      "notes": "Official documents"
+    },
+    {
+      "id": "lex_0012",
+      "canonical_masri": "pump",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "بامب"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": null,
+      "source_language": "unknown",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json loanword_examples",
+      "example_inputs": [],
+      "notes": "Engineering term"
+    },
+    {
+      "id": "lex_0013",
+      "canonical_masri": "inϣāⱯallāh",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "إن شاء الله"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "expression",
+      "gender": null,
+      "source_language": "Arabic",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json standardized_word_list",
+      "example_inputs": [],
+      "notes": "high-frequency standardized form"
+    },
+    {
+      "id": "lex_0014",
+      "canonical_masri": "ahwa",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "قهوة"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "expression",
+      "gender": null,
+      "source_language": "Arabic",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json standardized_word_list",
+      "example_inputs": [],
+      "notes": "high-frequency standardized form"
+    },
+    {
+      "id": "lex_0015",
+      "canonical_masri": "aywa",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "أيوة"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "expression",
+      "gender": null,
+      "source_language": "Arabic",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json standardized_word_list",
+      "example_inputs": [],
+      "notes": "high-frequency standardized form"
+    },
+    {
+      "id": "lex_0016",
+      "canonical_masri": "miϣ",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "مش"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "expression",
+      "gender": null,
+      "source_language": "Arabic",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json standardized_word_list",
+      "example_inputs": [],
+      "notes": "high-frequency standardized form"
+    },
+    {
+      "id": "lex_0017",
+      "canonical_masri": "yaⲴni",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "يعني"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "expression",
+      "gender": null,
+      "source_language": "Arabic",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json standardized_word_list",
+      "example_inputs": [],
+      "notes": "high-frequency standardized form"
+    },
+    {
+      "id": "lex_0018",
+      "canonical_masri": "keda",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "كده / كدة"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "expression",
+      "gender": null,
+      "source_language": "Arabic",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json standardized_word_list",
+      "example_inputs": [],
+      "notes": "high-frequency standardized form"
+    },
+    {
+      "id": "lex_0019",
+      "canonical_masri": "Ⲵaϣan",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "عشان"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "expression",
+      "gender": null,
+      "source_language": "Arabic",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json standardized_word_list",
+      "example_inputs": [],
+      "notes": "high-frequency standardized form"
+    },
+    {
+      "id": "lex_0020",
+      "canonical_masri": "bass",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "بس"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "expression",
+      "gender": null,
+      "source_language": "Arabic",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json standardized_word_list",
+      "example_inputs": [],
+      "notes": "high-frequency standardized form"
+    },
+    {
+      "id": "lex_0021",
+      "canonical_masri": "zay",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "زي"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "expression",
+      "gender": null,
+      "source_language": "Arabic",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json standardized_word_list",
+      "example_inputs": [],
+      "notes": "high-frequency standardized form"
+    },
+    {
+      "id": "lex_0022",
+      "canonical_masri": "wallāh / wallāhi",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "والله"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "expression",
+      "gender": null,
+      "source_language": "Arabic",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json standardized_word_list",
+      "example_inputs": [],
+      "notes": "high-frequency standardized form"
+    },
+    {
+      "id": "lex_0023",
+      "canonical_masri": "elϨamdolillāh",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "الحمدلله"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "expression",
+      "gender": null,
+      "source_language": "Arabic",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json standardized_word_list",
+      "example_inputs": [],
+      "notes": "high-frequency standardized form"
+    },
+    {
+      "id": "lex_0024",
+      "canonical_masri": "besmellāh",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "بسم الله"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "expression",
+      "gender": null,
+      "source_language": "Arabic",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json standardized_word_list",
+      "example_inputs": [],
+      "notes": "high-frequency standardized form"
+    },
+    {
+      "id": "lex_0025",
+      "canonical_masri": "māϣāⱯallāh",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "ماشاء الله"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "expression",
+      "gender": null,
+      "source_language": "Arabic",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json standardized_word_list",
+      "example_inputs": [],
+      "notes": "high-frequency standardized form"
+    },
+    {
+      "id": "lex_0026",
+      "canonical_masri": "yā rabb",
+      "canonical_masri_variants": [],
+      "arabic_variants": [
+        "يارب"
+      ],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "expression",
+      "gender": null,
+      "source_language": "Arabic",
+      "loanword_status": "established",
+      "code_switch_form": null,
+      "confidence": "established",
+      "attestation_source": "tier2-rules.json standardized_word_list",
+      "example_inputs": [],
+      "notes": "high-frequency standardized form"
+    },
+    {
+      "id": "lex_0027",
+      "canonical_masri": "save",
+      "canonical_masri_variants": [],
+      "arabic_variants": [],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "verb",
+      "gender": null,
+      "source_language": "English",
+      "loanword_status": "code_switch",
+      "code_switch_form": "save",
+      "confidence": "established",
+      "attestation_source": "conversation with project author, 2026-08-20 (mixed_script_examples.json)",
+      "example_inputs": [],
+      "notes": "asave attested (Egyptian 1st-person prefix bound directly to unadapted stem — see source/changelog.md 2026-08-20 entry)"
+    },
+    {
+      "id": "lex_0028",
+      "canonical_masri": "file",
+      "canonical_masri_variants": [],
+      "arabic_variants": [],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": null,
+      "source_language": "English",
+      "loanword_status": "code_switch",
+      "code_switch_form": "file",
+      "confidence": "established",
+      "attestation_source": "conversation with project author, 2026-08-20 (mixed_script_examples.json)",
+      "example_inputs": [],
+      "notes": "kept as code-switch, e.g. 'el file'"
+    },
+    {
+      "id": "lex_0029",
+      "canonical_masri": "wow",
+      "canonical_masri_variants": [],
+      "arabic_variants": [],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "interjection",
+      "gender": null,
+      "source_language": "English",
+      "loanword_status": "code_switch",
+      "code_switch_form": "wow",
+      "confidence": "established",
+      "attestation_source": "conversation with project author, 2026-08-20 (mixed_script_examples.json)",
+      "example_inputs": [],
+      "notes": "kept caps, used as loanword exclamation, not the letter و"
+    },
+    {
+      "id": "lex_0030",
+      "canonical_masri": "script",
+      "canonical_masri_variants": [],
+      "arabic_variants": [],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": null,
+      "source_language": "English",
+      "loanword_status": "code_switch",
+      "code_switch_form": "script",
+      "confidence": "established",
+      "attestation_source": "conversation with project author, 2026-08-20 (mixed_script_examples.json)",
+      "example_inputs": [],
+      "notes": "base form; Egyptianized plural 'escriptat' attested (see escript entry below)"
+    },
+    {
+      "id": "lex_0031",
+      "canonical_masri": "escript",
+      "canonical_masri_variants": [
+        "escriptat (plural)"
+      ],
+      "arabic_variants": [],
+      "arabizi_variants": [],
+      "ipa": null,
+      "part_of_speech": "noun",
+      "gender": "masculine",
+      "source_language": "English (script)",
+      "loanword_status": "recognized_variant",
+      "code_switch_form": null,
+      "confidence": "uncertain",
+      "attestation_source": "conversation with project author, 2026-08-20",
+      "example_inputs": [],
+      "notes": "PROVISIONAL: epenthetic e- + Arabic-style -at plural, extending the bonṭ/bonṭat pattern to an unlisted loanword. Not yet formally adopted into masri_tier2_system_prompt.md's closed-list loanword-plural policy — see source/changelog.md 2026-08-20 entry."
+    }
+  ]
+}

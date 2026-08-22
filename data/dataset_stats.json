@@ -1,0 +1,49 @@
+{
+  "train_examples": 201,
+  "dev_examples": 20,
+  "eval_examples": 53,
+  "train_by_input_type": {
+    "arabic_script": 126,
+    "franco": 75
+  },
+  "eval_by_input_type": {
+    "arabic_script": 38,
+    "franco": 15
+  },
+  "train_by_category": {
+    "alphabet": 63,
+    "standardized_word": 32,
+    "ayin": 21,
+    "rule_3_glottal_stop": 3,
+    "conversational_masri": 10,
+    "rule_explanation": 3,
+    "loanword_p_b_v_f": 20,
+    "loanword_egyptianized_greek": 3,
+    "loanword": 11,
+    "rule_6_the_letters_p_and_v": 7,
+    "rule_2_definite_article": 5,
+    "alphabet_borrowed": 2,
+    "rule_5_cairene_ق_and_hamza_merger": 3,
+    "rule_1_gemination_(doubled_consonants)": 4,
+    "full_text_conversion": 3,
+    "loanword_judgment_call": 3,
+    "loanword_egyptianized_french": 3,
+    "loanword_visual_spelling": 3,
+    "loanword_epenthesis": 2
+  },
+  "eval_by_category": {
+    "formatting": 3,
+    "gemination": 5,
+    "definite_article": 4,
+    "glottal_stop": 5,
+    "ayin": 5,
+    "q_hamza_merger": 4,
+    "p_b_v_f": 4,
+    "short_vowels": 3,
+    "loanword_english_kept": 6,
+    "loanword_egyptianized": 4,
+    "loanword_irregular_plural": 3,
+    "tha_merger": 4,
+    "homograph": 3
+  }
+}
