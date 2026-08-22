@@ -22,7 +22,7 @@ CC BY 4.0.
 | File | Purpose |
 |---|---|
 | `train.jsonl` | SFT training examples, chat format (`system`/`user`/`assistant`) — **1,389 examples** (662 Arabic-script, 725 Franco, 2 mixed Arabic+English) |
-| `dev.jsonl` | Small in-training dev slice (20 examples, same distribution as train, held out of it — confirmed no overlap with `train.jsonl`) |
+| `dev.jsonl` | In-training dev slice — **70 examples**, disjoint from `train.jsonl` (verified: 0 overlapping user/assistant pairs), category mix roughly mirrors train's (majority `templated_sentence`, plus alphabet/rule/loanword/ayin coverage) |
 | `eval_held_out.jsonl` | **Never trained on.** 1:1 derived from `masri_tier2_eval_set.json`, with `expected` + `accepted_variants` + `tests_for` per item, for scoring |
 | `system_prompt.txt` | The grounding system prompt used for every example (from `masri_tier2_system_prompt.md`) |
 | `dataset_stats.json` | Category counts |
