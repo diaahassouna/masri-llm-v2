@@ -376,7 +376,7 @@ def main():
         eval_strategy="epoch" if eval_ds is not None else "no",
         save_strategy="epoch",
         save_total_limit=3,
-        fp16=False,
+        fp16=True,
         bf16=False,
         max_length=args.max_seq_len,
         assistant_only_loss=True,
