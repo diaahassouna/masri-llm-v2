@@ -6,17 +6,11 @@ from datasets import load_dataset
 from trl import SFTTrainer, SFTConfig
 
 # 0. Authenticate with Hugging Face
-HF_TOKEN = "PUT_YOUR_HUGGING_FACE_ACCESS_TOKEN_HERE"  # Replace with your newly generated token
+HF_TOKEN = "hf_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"  # Replace with your active HF token
 os.environ["HF_TOKEN"] = HF_TOKEN
 login(token=HF_TOKEN)
 
 # 1. Config & Base Model Selection
-# T4 = 16GB VRAM, single GPU only (Kaggle's 2nd T4 isn't usable by
-# open-source Unsloth without manual multi-GPU setup). Starting with 2B
-# to confirm the pipeline works within that budget, since full
-# embed_tokens/lm_head training on Gemma 2's 256k vocab adds real memory
-# on top of the LoRA adapters. Swap to "unsloth/gemma-2-9b-it-bnb-4bit"
-# once this runs cleanly, if you want to try for more capacity.
 max_seq_length = 512
 model_name = "unsloth/gemma-2-2b-it-bnb-4bit"
 model, tokenizer = FastLanguageModel.from_pretrained(
@@ -26,13 +20,10 @@ model, tokenizer = FastLanguageModel.from_pretrained(
     token = HF_TOKEN,
 )
 
-# 2. Load Local Dataset (loaded before touching the model so we can scan it)
+# 2. Load Local Dataset
 dataset = load_dataset("json", data_files="masri-llm-v2/data/train.jsonl", split="train")
 
-# 3. Auto-detect Masri characters the tokenizer doesn't already represent cleanly
-#    A character is "already fine" if it round-trips as exactly one token.
-#    Anything that takes 2+ tokens gets registered as a proper new token, so
-#    the model learns it as a single unit instead of a fragile byte sequence.
+# 3. Detect and add missing characters to vocabulary
 def find_uncovered_chars(dataset, tokenizer):
     chars = set()
     for msg_list in dataset["messages"]:
@@ -51,10 +42,11 @@ new_chars = find_uncovered_chars(dataset, tokenizer)
 print(f"Adding {len(new_chars)} new tokens: {new_chars}")
 
 if new_chars:
+    torch.cuda.empty_cache()
     tokenizer.add_tokens(new_chars)
-    model.resize_token_embeddings(len(tokenizer))
-    # Seed new embedding rows with the mean of existing ones instead of pure
-    # random init — gives training a head start rather than starting from noise.
+    # mean_resizing=False disables the 256k-vocab covariance matrix calculation that triggers OOM on T4
+    model.resize_token_embeddings(len(tokenizer), mean_resizing=False)
+    
     with torch.no_grad():
         embed = model.get_input_embeddings()
         mean_embedding = embed.weight[:-len(new_chars)].mean(dim=0)
@@ -62,9 +54,6 @@ if new_chars:
             embed.weight[-(i + 1)] = mean_embedding
 
 # 4. Attach Fast LoRA Adapters
-#    modules_to_save keeps embed_tokens/lm_head FULLY trainable (not LoRA-decomposed)
-#    so the new token rows we just added can actually learn — this is required
-#    whenever you've resized the vocabulary, otherwise the new rows never update.
 model = FastLanguageModel.get_peft_model(
     model,
     r = 16,
@@ -76,17 +65,31 @@ model = FastLanguageModel.get_peft_model(
     modules_to_save = ["embed_tokens", "lm_head"] if new_chars else None,
 )
 
-# 5. Format Messages to ChatML
+# 5. Format Prompts for Gemma 2 (Handles System role and mapping)
 def format_prompts(examples):
     texts = []
     for msg_list in examples["messages"]:
-        formatted_chat = ""
-        for msg in msg_list:
-            role = msg["role"]
-            content = msg["content"]
-            formatted_chat += f"<|im_start|>{role}\n{content}<|im_end|>\n"
-        texts.append(formatted_chat.strip())
+        cleaned_msgs = []
+        sys_text = ""
+        
+        for m in msg_list:
+            if m["role"] == "system":
+                sys_text += m["content"] + "\n\n"
+            else:
+                role = "model" if m["role"] == "assistant" else m["role"]
+                cleaned_msgs.append({"role": role, "content": m["content"]})
+        
+        if sys_text and cleaned_msgs and cleaned_msgs[0]["role"] == "user":
+            cleaned_msgs[0]["content"] = sys_text + cleaned_msgs[0]["content"]
+            
+        formatted = tokenizer.apply_chat_template(
+            cleaned_msgs, 
+            tokenize=False, 
+            add_generation_prompt=False
+        )
+        texts.append(formatted)
     return { "text" : texts }
+
 dataset = dataset.map(format_prompts, batched = True)
 
 # 6. Training Loop Configuration
@@ -99,12 +102,11 @@ trainer = SFTTrainer(
         max_seq_length = max_seq_length,
         dataset_num_proc = 2,
         packing = False,
-        per_device_train_batch_size = 2,    # halved from 4 to leave headroom for
-                                              # the full embed_tokens/lm_head training
-        gradient_accumulation_steps = 4,    # doubled to keep effective batch size (8) the same
+        per_device_train_batch_size = 2,
+        gradient_accumulation_steps = 4,
         warmup_steps = 10,
-        num_train_epochs = 3,               # bumped from 1: learning a new script needs more passes
-        learning_rate = 2e-4,
+        num_train_epochs = 3,
+        learning_rate = 5e-5,
         fp16 = not torch.cuda.is_bf16_supported(),
         bf16 = torch.cuda.is_bf16_supported(),
         logging_steps = 10,
@@ -126,10 +128,24 @@ model.push_to_hub(HUB_MODEL_ID, token=HF_TOKEN)
 tokenizer.push_to_hub(HUB_MODEL_ID, token=HF_TOKEN)
 print(f"🚀 Model pushed successfully: https://huggingface.co/{HUB_MODEL_ID}")
 
-# --- Inference check (run in the same session) ---
+# --- Native Inference Check ---
 FastLanguageModel.for_inference(model)
 test_prompt = "azayk ya basha 3amel eh el naharda"
-formatted_input = f"<|im_start|>user\n{test_prompt}<|im_end|>\n<|im_start|>assistant\n"
-inputs = tokenizer(formatted_input, return_tensors="pt").to("cuda")
-outputs = model.generate(**inputs, max_new_tokens=64, do_sample=True, temperature=0.1, pad_token_id=tokenizer.eos_token_id)
-print(tokenizer.decode(outputs[0][inputs.input_ids.shape[1]:], skip_special_tokens=True))
+messages = [{"role": "user", "content": test_prompt}]
+inputs = tokenizer.apply_chat_template(
+    messages, 
+    tokenize=True, 
+    add_generation_prompt=True, 
+    return_tensors="pt"
+).to("cuda")
+
+outputs = model.generate(
+    input_ids=inputs,
+    max_new_tokens=64,
+    do_sample=True,
+    temperature=0.3,
+    pad_token_id=tokenizer.eos_token_id
+)
+response = tokenizer.decode(outputs[0][inputs.shape[1]:], skip_special_tokens=True)
+print(f"Input:  {test_prompt}")
+print(f"Masri:  {response.strip()}")
