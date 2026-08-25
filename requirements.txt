@@ -17,3 +17,6 @@ xformers
 sentencepiece
 protobuf
 anthropic  # optional, only for scripts/augment_with_claude.py
+
+# Cloud & Environment Dependencies (Fixes Kaggle google-adk conflict)
+google-cloud-bigquery-storage>=2.0.0
