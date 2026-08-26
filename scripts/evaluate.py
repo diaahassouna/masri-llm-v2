@@ -96,7 +96,10 @@ def main():
 
         if norm_out == norm_expected:
             verdict = "EXACT"
-        elif norm_out in accepted or any(norm_out in v or v in norm_out for v in accepted):
+        elif norm_out and (norm_out in accepted or any(norm_out in v or v in norm_out for v in accepted)):
+            # norm_out and (...) guards against empty model output ("") being
+            # treated as a substring of every non-empty accepted variant, which
+            # silently scored blank generations as ACCEPTABLE.
             verdict = "ACCEPTABLE"
         else:
             verdict = "FAIL"
