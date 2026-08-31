@@ -125,33 +125,43 @@ def load_model_transformers(load_in_4bit: bool = True):
     return model, tokenizer
 
 
+# The instruction wrapper every training example's user turn actually used
+# (confirmed from data/train.jsonl) — the model was never trained on raw
+# Franco/Arabic text as the user turn by itself, only wrapped like this.
+INSTRUCTION_TEMPLATE = "eh el masri el sa7 lel gomla dee: {text}"
+
+
 def generate(model, tokenizer, system_prompt: str, user_text: str,
              max_new_tokens: int = 512, temperature: float = 0.7,
-             history: list | None = None) -> str:
+             history: list | None = None, wrap_instruction: bool = True) -> str:
     import torch
+
+    wrapped_text = INSTRUCTION_TEMPLATE.format(text=user_text) if wrap_instruction else user_text
 
     messages = [{"role": "system", "content": system_prompt}] if system_prompt else []
     if history:
         messages.extend(history)
-    messages.append({"role": "user", "content": user_text})
+    messages.append({"role": "user", "content": wrapped_text})
 
-    inputs = tokenizer.apply_chat_template(
+    encoded = tokenizer.apply_chat_template(
         messages,
         tokenize=True,
         add_generation_prompt=True,
+        enable_thinking=False,  # matches train_ddp.py — Qwen3 thinking disabled at train time
         return_tensors="pt",
+        return_dict=True,
     ).to(model.device)
 
     with torch.no_grad():
         output_ids = model.generate(
-            inputs,
+            **encoded,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
             do_sample=temperature > 0,
             pad_token_id=tokenizer.eos_token_id,
         )
 
-    new_tokens = output_ids[0][inputs.shape[-1]:]
+    new_tokens = output_ids[0][encoded["input_ids"].shape[-1]:]
     return tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
 
 
@@ -171,6 +181,8 @@ def main():
                          help="Disable 4-bit quantized loading.")
     parser.add_argument("--max-new-tokens", type=int, default=512)
     parser.add_argument("--temperature", type=float, default=0.7)
+    parser.add_argument("--no-wrap", dest="wrap_instruction", action="store_false", default=True,
+                         help="Send raw text as the user turn instead of the trained instruction wrapper.")
     args = parser.parse_args()
 
     if not args.text and not args.chat:
@@ -212,6 +224,7 @@ def main():
                 max_new_tokens=args.max_new_tokens,
                 temperature=args.temperature,
                 history=history,
+                wrap_instruction=args.wrap_instruction,
             )
             print(f"masri> {reply}\n")
             history.append({"role": "user", "content": user_text})
@@ -221,6 +234,7 @@ def main():
             model, tokenizer, system_prompt, args.text,
             max_new_tokens=args.max_new_tokens,
             temperature=args.temperature,
+            wrap_instruction=args.wrap_instruction,
         )
         print(reply)
 
